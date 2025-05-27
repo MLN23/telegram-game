@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Catch the Ball</title>
+  <style>
+    body { margin: 0; background: #222; overflow: hidden; }
+    canvas { display: block; margin: auto; background: #fff; }
+  </style>
+</head>
+<body>
+  <canvas id="game" width="400" height="600"></canvas>
+
+  <script>
+    const canvas = document.getElementById("game");
+    const ctx = canvas.getContext("2d");
+
+    let ball = { x: 200, y: 0, r: 20, speed: 3 };
+    let score = 0;
+
+    canvas.addEventListener("click", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+
+      const dx = clickX - ball.x;
+      const dy = clickY - ball.y;
+
+      if (Math.sqrt(dx * dx + dy * dy) < ball.r) {
+        score++;
+        ball.y = 0;
+        ball.x = Math.random() * (canvas.width - 40) + 20;
+      }
+    });
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#3498db";
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#000";
+      ctx.font = "20px sans-serif";
+      ctx.fillText("Score: " + score, 10, 30);
+    }
+
+    function update() {
+      ball.y += ball.speed;
+      if (ball.y > canvas.height) {
+        ball.y = 0;
+        ball.x = Math.random() * (canvas.width - 40) + 20;
+        score = Math.max(score - 1, 0);
+      }
+    }
+
+    function gameLoop() {
+      update();
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+
+    gameLoop();
+  </script>
+</body>
+</html>
