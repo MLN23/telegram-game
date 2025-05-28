@@ -1,66 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Catch the Ball</title>
-  <style>
-    body { margin: 0; background: #222; overflow: hidden; }
-    canvas { display: block; margin: auto; background: #fff; }
-  </style>
+    <meta charset="UTF-8">
+    <title>Коллекционные карточки</title>
+    <style>
+        body {
+            background-color: #111;
+            font-family: sans-serif;
+            color: white;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px auto;
+            max-width: 1200px;
+        }
+        .card {
+            background: linear-gradient(to bottom, #333, #222);
+            border: 2px solid gold;
+            border-radius: 12px;
+            width: 200px;
+            padding: 16px;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+        .card img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .card-title {
+            margin: 10px 0;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .card-info {
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-  <canvas id="game" width="400" height="600"></canvas>
-
-  <script>
-    const canvas = document.getElementById("game");
-    const ctx = canvas.getContext("2d");
-
-    let ball = { x: 200, y: 0, r: 20, speed: 3 };
-    let score = 0;
-
-    canvas.addEventListener("click", (e) => {
-      const rect = canvas.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const clickY = e.clientY - rect.top;
-
-      const dx = clickX - ball.x;
-      const dy = clickY - ball.y;
-
-      if (Math.sqrt(dx * dx + dy * dy) < ball.r) {
-        score++;
-        ball.y = 0;
-        ball.x = Math.random() * (canvas.width - 40) + 20;
-      }
-    });
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#3498db";
-      ctx.beginPath();
-      ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = "#000";
-      ctx.font = "20px sans-serif";
-      ctx.fillText("Score: " + score, 10, 30);
-    }
-
-    function update() {
-      ball.y += ball.speed;
-      if (ball.y > canvas.height) {
-        ball.y = 0;
-        ball.x = Math.random() * (canvas.width - 40) + 20;
-        score = Math.max(score - 1, 0);
-      }
-    }
-
-    function gameLoop() {
-      update();
-      draw();
-      requestAnimationFrame(gameLoop);
-    }
-
-    gameLoop();
-  </script>
+    <h1>Мои коллекционные карточки</h1>
+    <div class="card-container">
+        <div class="card">
+            <img src="https://example.com/card1.jpg" alt="Card 1">
+            <div class="card-title">Дракон Огня</div>
+            <div class="card-info">Атака: 90<br>Защита: 70</div>
+        </div>
+        <div class="card">
+            <img src="https://example.com/card2.jpg" alt="Card 2">
+            <div class="card-title">Теневой Гоблин</div>
+            <div class="card-info">Атака: 60<br>Защита: 40</div>
+        </div>
+        <!-- Добавьте больше карточек по аналогии -->
+    </div>
 </body>
 </html>
